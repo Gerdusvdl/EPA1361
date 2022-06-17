@@ -5,8 +5,9 @@ Created on Tue Oct 31 13:18:05 2017
 @author: ciullo
 """
 from __future__ import division
-from copy import deepcopy
+# from copy import deepcopy
 from ema_workbench import ema_logging
+import copy
 
 import funs_generate_network
 from funs_dikes import Lookuplin, dikefailure, init_node
