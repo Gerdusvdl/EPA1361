@@ -10,7 +10,7 @@ from dike_model_function import DikeNetwork  # @UnresolvedImport
 
 
 def sum_over(*args):
-    return sum(args)
+    return float(sum(args))
 
 
 def get_model_for_problem_formulation(problem_formulation_id):
@@ -198,10 +198,18 @@ def get_model_for_problem_formulation(problem_formulation_id):
             for e in ['Expected Annual Damage', 'Dike Investment Costs']:
                 variable_name.extend([f'{dike}_{e} {n}'
                                           for n in function.planning_steps])
-            
-            outcomes.append(ScalarOutcome(f'{dike} Total Costs',
-                                          variable_name=[var for var in variable_name],
+                
+            outcomes.append(ScalarOutcome(f'{dike}_Expected Annual Damage',
+                                          variable_name=[var for var in variable_name[0:3]],
                                           function=sum_over, kind=direction))
+            
+            outcomes.append(ScalarOutcome(f'{dike}_Dike Investment Costs',
+                                          variable_name=[var for var in variable_name[3:6]],
+                                          function=sum_over, kind=direction))
+            
+            #outcomes.append(ScalarOutcome(f'{dike} Total Costs',
+            #                              variable_name=[var for var in variable_name],
+            #                              function=sum_over, kind=direction))
 
             outcomes.append(ScalarOutcome(f'{dike}_Expected Number of Deaths',
                                           variable_name=['{}_Expected Number of Deaths {}'.format(
@@ -216,6 +224,10 @@ def get_model_for_problem_formulation(problem_formulation_id):
                                       variable_name=['Expected Evacuation Costs {}'.format(n
                                                      ) for n in function.planning_steps],
                                           function=sum_over, kind=direction))
+        
+        #for outcome in outcomes:
+            #print(outcome)
+            #print()
 
         dike_model.outcomes = outcomes
 
